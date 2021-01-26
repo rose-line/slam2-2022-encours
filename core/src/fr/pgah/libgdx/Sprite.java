@@ -22,6 +22,10 @@ public class Sprite {
   int hauteurEffective;
   Random generateurAleatoire;
 
+  public Sprite() {
+    initialiser();
+  }
+
   public void initialiser() {
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
@@ -38,6 +42,12 @@ public class Sprite {
     hauteurEffective = (int) (img.getHeight() * facteurTaille);
     coordX = generateurAleatoire.nextInt(longueurFenetre - longueurEffective);
     coordY = generateurAleatoire.nextInt(hauteurFenetre - hauteurEffective);
+  }
+
+  public void majEtat() {
+    deplacer();
+    pivoter();
+    forcerAResterDansLeCadre();
   }
 
   public void pivoter() {

@@ -27,23 +27,15 @@ public class Intro extends ApplicationAdapter {
     sprites = new Sprite[NB_SPRITES];
     for (int i = 0; i < sprites.length; i++) {
       sprites[i] = new Sprite();
-      sprites[i].initialiser();
+      // sprites[i].initialiser();
     }
   }
 
   @Override
   public void render() {
     reinitialiserArrierePlan();
-    deplacer();
-    pivoter();
-    forcerAResterDansCadre();
+    majEtat();
     dessiner();
-  }
-
-  private void pivoter() {
-    for (int i = 0; i < NB_SPRITES; i++) {
-      sprites[i].pivoter();
-    }
   }
 
   private void reinitialiserArrierePlan() {
@@ -51,9 +43,9 @@ public class Intro extends ApplicationAdapter {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
-  private void deplacer() {
+  private void majEtat() {
     for (int i = 0; i < sprites.length; i++) {
-      sprites[i].deplacer();
+      sprites[i].majEtat();
     }
   }
 
@@ -63,11 +55,5 @@ public class Intro extends ApplicationAdapter {
       sprites[i].dessiner(batch);
     }
     batch.end();
-  }
-
-  private void forcerAResterDansCadre() {
-    for (int i = 0; i < sprites.length; i++) {
-      sprites[i].forcerAResterDansLeCadre();
-    }
   }
 }
