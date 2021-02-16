@@ -13,6 +13,7 @@ public class Intro extends ApplicationAdapter {
   int hauteurFenetre;
 
   Sprite[] sprites;
+  Joueur joueur;
 
   @Override
   public void create() {
@@ -21,6 +22,11 @@ public class Intro extends ApplicationAdapter {
     hauteurFenetre = Gdx.graphics.getHeight();
 
     initialisationSprites();
+    initialiserJoueur();
+  }
+
+  private void initialiserJoueur() {
+    joueur = new Joueur();
   }
 
   private void initialisationSprites() {
@@ -47,6 +53,7 @@ public class Intro extends ApplicationAdapter {
     for (int i = 0; i < sprites.length; i++) {
       sprites[i].majEtat();
     }
+    joueur.majEtat();
   }
 
   private void dessiner() {
@@ -54,6 +61,7 @@ public class Intro extends ApplicationAdapter {
     for (int i = 0; i < sprites.length; i++) {
       sprites[i].dessiner(batch);
     }
+    joueur.dessiner(batch);
     batch.end();
   }
 }

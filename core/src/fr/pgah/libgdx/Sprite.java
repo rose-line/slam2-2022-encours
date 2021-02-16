@@ -22,6 +22,7 @@ public class Sprite {
   int hauteurEffective;
   Random generateurAleatoire;
 
+
   public Sprite() {
     initialiser();
   }
