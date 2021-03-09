@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Joueur {
 
@@ -15,6 +16,7 @@ public class Joueur {
   int coordY;
   int longueurEffective;
   int hauteurEffective;
+  Rectangle zone;
 
   public Joueur() {
     img = new Texture("toto.png");
@@ -22,6 +24,7 @@ public class Joueur {
     hauteurEffective = img.getHeight();
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
+    zone = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
   }
 
   public void majEtat() {
@@ -42,6 +45,7 @@ public class Joueur {
     if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
       coordY -= vitesse;
     }
+    zone.setPosition(coordX, coordY);
   }
 
   private void forcerAResterDansLeCadre() {
@@ -64,9 +68,32 @@ public class Joueur {
     if (coordY < 0) {
       coordY = 0;
     }
+
+    zone.setPosition(coordX, coordY);
   }
 
   public void dessiner(SpriteBatch batch) {
     batch.draw(img, coordX, coordY);
+  }
+
+  public boolean estEnCollisionAvec(Sprite[] sprites) {
+    // pour chaque sprite dans sprites
+    // si le sprite touche le joueur
+    // alors renvoyer vrai
+    // sinon faux
+    for (Sprite sprite : sprites) {
+      if (estEnCollisionAvec(sprite)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean estEnCollisionAvec(Sprite sprite) {
+    if (zone.overlaps(sprite.zone)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

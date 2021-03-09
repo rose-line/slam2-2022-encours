@@ -14,12 +14,15 @@ public class Intro extends ApplicationAdapter {
 
   Sprite[] sprites;
   Joueur joueur;
+  boolean gameOver;
 
   @Override
   public void create() {
     batch = new SpriteBatch();
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
+
+    gameOver = false;
 
     initialisationSprites();
     initialiserJoueur();
@@ -32,7 +35,7 @@ public class Intro extends ApplicationAdapter {
   private void initialisationSprites() {
     sprites = new Sprite[NB_SPRITES];
     for (int i = 0; i < sprites.length; i++) {
-      sprites[i] = new Sprite();
+      sprites[i] = new Sprite("sio.jpg");
       // sprites[i].initialiser();
     }
   }
@@ -40,20 +43,28 @@ public class Intro extends ApplicationAdapter {
   @Override
   public void render() {
     reinitialiserArrierePlan();
-    majEtat();
+    majEtatProtagonistes();
+    majEtatJeu();
     dessiner();
   }
+
 
   private void reinitialiserArrierePlan() {
     // Gdx.gl.glClearColor(1, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
-  private void majEtat() {
+  private void majEtatProtagonistes() {
     for (int i = 0; i < sprites.length; i++) {
       sprites[i].majEtat();
     }
     joueur.majEtat();
+  }
+
+  private void majEtatJeu() {
+    if (joueur.estEnCollisionAvec(sprites)) {
+      gameOver = true;
+    }
   }
 
   private void dessiner() {

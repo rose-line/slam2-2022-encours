@@ -4,6 +4,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Sprite {
 
@@ -21,26 +22,26 @@ public class Sprite {
   int longueurEffective;
   int hauteurEffective;
   Random generateurAleatoire;
+  Rectangle zone;
 
-
-  public Sprite() {
-    initialiser();
+  public Sprite(String img) {
+    initialiser(img);
   }
 
-  public void initialiser() {
+  private void initialiser(String img) {
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
 
     generateurAleatoire = new Random();
-    img = new Texture("sio.jpg");
+    this.img = new Texture(img);
     facteurTaille = 0.15;
     vitesse = 1 + generateurAleatoire.nextInt(10);
     rotation = 0;
     vitesseRotation = 5 + generateurAleatoire.nextInt(21);
     versLaDroite = generateurAleatoire.nextBoolean();
     versLeHaut = generateurAleatoire.nextBoolean();
-    longueurEffective = (int) (img.getWidth() * facteurTaille);
-    hauteurEffective = (int) (img.getHeight() * facteurTaille);
+    longueurEffective = (int) (this.img.getWidth() * facteurTaille);
+    hauteurEffective = (int) (this.img.getHeight() * facteurTaille);
     coordX = generateurAleatoire.nextInt(longueurFenetre - longueurEffective);
     coordY = generateurAleatoire.nextInt(hauteurFenetre - hauteurEffective);
   }
