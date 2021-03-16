@@ -3,18 +3,19 @@ package fr.pgah.libgdx;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Intro extends ApplicationAdapter {
 
-  final int NB_SPRITES = 20;
+  final int NB_SPRITES = 5;
   SpriteBatch batch;
   int longueurFenetre;
   int hauteurFenetre;
-
   Sprite[] sprites;
   Joueur joueur;
   boolean gameOver;
+  Texture gameOverTexture;
 
   @Override
   public void create() {
@@ -23,45 +24,51 @@ public class Intro extends ApplicationAdapter {
     hauteurFenetre = Gdx.graphics.getHeight();
 
     gameOver = false;
+    gameOverTexture = new Texture("game_over.png");
 
     initialisationSprites();
     initialiserJoueur();
+  }
+
+  private void initialisationSprites() {
+    sprites = new Sprite[NB_SPRITES];
+    for (int i = 0; i < sprites.length; i++) {
+      sprites[i] = new Sprite("chien.png");
+    }
   }
 
   private void initialiserJoueur() {
     joueur = new Joueur();
   }
 
-  private void initialisationSprites() {
-    sprites = new Sprite[NB_SPRITES];
-    for (int i = 0; i < sprites.length; i++) {
-      sprites[i] = new Sprite("sio.jpg");
-      // sprites[i].initialiser();
-    }
-  }
-
   @Override
   public void render() {
-    reinitialiserArrierePlan();
-    majEtatProtagonistes();
-    majEtatJeu();
-    dessiner();
+    // gameOver est mis à TRUE dès qu'un "hit" est repéré
+    if (!gameOver) {
+      reinitialiserArrierePlan();
+      majEtatProtagonistes();
+      majEtatJeu();
+      dessiner();
+    }
   }
 
 
   private void reinitialiserArrierePlan() {
-    // Gdx.gl.glClearColor(1, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
   private void majEtatProtagonistes() {
+    // Sprites
     for (int i = 0; i < sprites.length; i++) {
       sprites[i].majEtat();
     }
+
+    // Joueur
     joueur.majEtat();
   }
 
   private void majEtatJeu() {
+    // On vérifie si le jeu continue ou pas
     if (joueur.estEnCollisionAvec(sprites)) {
       gameOver = true;
     }
@@ -69,10 +76,18 @@ public class Intro extends ApplicationAdapter {
 
   private void dessiner() {
     batch.begin();
-    for (int i = 0; i < sprites.length; i++) {
-      sprites[i].dessiner(batch);
+    if (gameOver) {
+      // cet affichage GAME OVER ne se fera qu'une fois
+      // à la fin de la dernière frame au moment du "hit"
+      // puisqu'ensuite le render ne fera plus rien
+      batch.draw(gameOverTexture, 100, 100);
+    } else {
+      // Affichage "normal", jeu en cours
+      for (int i = 0; i < sprites.length; i++) {
+        sprites[i].dessiner(batch);
+      }
+      joueur.dessiner(batch);
     }
-    joueur.dessiner(batch);
     batch.end();
   }
 }

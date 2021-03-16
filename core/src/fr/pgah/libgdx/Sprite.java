@@ -22,9 +22,10 @@ public class Sprite {
   int longueurEffective;
   int hauteurEffective;
   Random generateurAleatoire;
-  Rectangle zone;
+  Rectangle zoneDeHit;
 
   public Sprite(String img) {
+    // On pourrait aussi copier tout le contenu de la méthode ici
     initialiser(img);
   }
 
@@ -34,7 +35,7 @@ public class Sprite {
 
     generateurAleatoire = new Random();
     this.img = new Texture(img);
-    facteurTaille = 0.15;
+    facteurTaille = 1;
     vitesse = 1 + generateurAleatoire.nextInt(10);
     rotation = 0;
     vitesseRotation = 5 + generateurAleatoire.nextInt(21);
@@ -44,6 +45,7 @@ public class Sprite {
     hauteurEffective = (int) (this.img.getHeight() * facteurTaille);
     coordX = generateurAleatoire.nextInt(longueurFenetre - longueurEffective);
     coordY = generateurAleatoire.nextInt(hauteurFenetre - hauteurEffective);
+    zoneDeHit = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
   }
 
   public void majEtat() {
@@ -67,6 +69,9 @@ public class Sprite {
     } else {
       coordY -= vitesse;
     }
+
+    // Coordonnées modifiées => Mise à jour de la zone de "hit"
+    zoneDeHit.setPosition(coordX, coordY);
   }
 
   public void forcerAResterDansLeCadre() {
@@ -93,6 +98,10 @@ public class Sprite {
       coordY = 0;
       versLeHaut = true;
     }
+
+    // Coordonnées modifiées => Mise à jour de la zone de "hit"
+    zoneDeHit.setPosition(coordX, coordY);
+
   }
 
   public void dessiner(SpriteBatch batch) {

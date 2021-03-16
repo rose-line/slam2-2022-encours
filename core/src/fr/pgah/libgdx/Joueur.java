@@ -16,7 +16,7 @@ public class Joueur {
   int coordY;
   int longueurEffective;
   int hauteurEffective;
-  Rectangle zone;
+  Rectangle zoneDeHit; // pour la détection des collisions
 
   public Joueur() {
     img = new Texture("toto.png");
@@ -24,7 +24,7 @@ public class Joueur {
     hauteurEffective = img.getHeight();
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
-    zone = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
+    zoneDeHit = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
   }
 
   public void majEtat() {
@@ -45,7 +45,10 @@ public class Joueur {
     if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
       coordY -= vitesse;
     }
-    zone.setPosition(coordX, coordY);
+
+    // Coordonnées ont potentiellement changé
+    // => Mise à jour zone de "hit"
+    zoneDeHit.setPosition(coordX, coordY);
   }
 
   private void forcerAResterDansLeCadre() {
@@ -69,7 +72,9 @@ public class Joueur {
       coordY = 0;
     }
 
-    zone.setPosition(coordX, coordY);
+    // Coordonnées ont potentiellement changé
+    // => Mise à jour zone de "hit"
+    zoneDeHit.setPosition(coordX, coordY);
   }
 
   public void dessiner(SpriteBatch batch) {
@@ -80,17 +85,20 @@ public class Joueur {
     // pour chaque sprite dans sprites
     // si le sprite touche le joueur
     // alors renvoyer vrai
-    // sinon faux
     for (Sprite sprite : sprites) {
       if (estEnCollisionAvec(sprite)) {
         return true;
       }
     }
+    // si on arrive ici, on a parcouru tout le tableau sans return,
+    // donc on n'a aucune collision => faux
     return false;
   }
 
   private boolean estEnCollisionAvec(Sprite sprite) {
-    if (zone.overlaps(sprite.zone)) {
+    // 'overlaps' est une méthode fournie par libGDX
+    // Elle teste si 2 rectangles se touchent
+    if (zoneDeHit.overlaps(sprite.zoneDeHit)) {
       return true;
     } else {
       return false;
