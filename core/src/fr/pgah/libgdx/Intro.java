@@ -1,5 +1,6 @@
 package fr.pgah.libgdx;
 
+import java.util.ArrayList;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +13,8 @@ public class Intro extends ApplicationAdapter {
   SpriteBatch batch;
   int longueurFenetre;
   int hauteurFenetre;
-  Sprite[] sprites;
+  // Sprite[] sprites;
+  ArrayList<Sprite> sprites;
   Joueur joueur;
   boolean gameOver;
   Texture gameOverTexture;
@@ -31,9 +33,10 @@ public class Intro extends ApplicationAdapter {
   }
 
   private void initialisationSprites() {
-    sprites = new Sprite[NB_SPRITES];
-    for (int i = 0; i < sprites.length; i++) {
-      sprites[i] = new Sprite("chien.png");
+    // sprites = new Sprite[NB_SPRITES];
+    sprites = new ArrayList<>();
+    for (int i = 0; i < NB_SPRITES; i++) {
+      sprites.add(new Sprite("chien.png"));
     }
   }
 
@@ -59,8 +62,8 @@ public class Intro extends ApplicationAdapter {
 
   private void majEtatProtagonistes() {
     // Sprites
-    for (int i = 0; i < sprites.length; i++) {
-      sprites[i].majEtat();
+    for (Sprite sprite : sprites) {
+      sprite.majEtat();
     }
 
     // Joueur
@@ -83,8 +86,8 @@ public class Intro extends ApplicationAdapter {
       batch.draw(gameOverTexture, 100, 100);
     } else {
       // Affichage "normal", jeu en cours
-      for (int i = 0; i < sprites.length; i++) {
-        sprites[i].dessiner(batch);
+      for (Sprite sprite : sprites) {
+        sprite.dessiner(batch);
       }
       joueur.dessiner(batch);
     }

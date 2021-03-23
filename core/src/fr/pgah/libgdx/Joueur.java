@@ -1,5 +1,6 @@
 package fr.pgah.libgdx;
 
+import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -81,7 +82,7 @@ public class Joueur {
     batch.draw(img, coordX, coordY);
   }
 
-  public boolean estEnCollisionAvec(Sprite[] sprites) {
+  public boolean estEnCollisionAvec(ArrayList<Sprite> sprites) {
     // pour chaque sprite dans sprites
     // si le sprite touche le joueur
     // alors renvoyer vrai
