@@ -112,4 +112,8 @@ public class Sprite {
         0, 0, img.getWidth(), img.getHeight(),
         false, false);
   }
+
+  public boolean seTrouveSur(int x, int y) {
+    return zoneDeHit.contains(x, Gdx.graphics.getHeight() - y);
+  }
 }

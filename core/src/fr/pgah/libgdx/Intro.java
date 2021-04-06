@@ -3,6 +3,7 @@ package fr.pgah.libgdx;
 import java.util.ArrayList;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,9 +14,8 @@ public class Intro extends ApplicationAdapter {
   SpriteBatch batch;
   int longueurFenetre;
   int hauteurFenetre;
-  // Sprite[] sprites;
   ArrayList<Sprite> sprites;
-  Joueur joueur;
+  // Joueur joueur;
   boolean gameOver;
   Texture gameOverTexture;
 
@@ -29,20 +29,21 @@ public class Intro extends ApplicationAdapter {
     gameOverTexture = new Texture("game_over.png");
 
     initialisationSprites();
-    initialiserJoueur();
+    // initialiserJoueur();
   }
 
   private void initialisationSprites() {
     // sprites = new Sprite[NB_SPRITES];
-    sprites = new ArrayList<>();
+    sprites = new ArrayList<Sprite>();
     for (int i = 0; i < NB_SPRITES; i++) {
+      // sprites[i] = new Sprite("chien.png");
       sprites.add(new Sprite("chien.png"));
     }
   }
 
-  private void initialiserJoueur() {
-    joueur = new Joueur();
-  }
+  // private void initialiserJoueur() {
+  // joueur = new Joueur();
+  // }
 
   @Override
   public void render() {
@@ -67,14 +68,49 @@ public class Intro extends ApplicationAdapter {
     }
 
     // Joueur
-    joueur.majEtat();
+    // joueur.majEtat();
   }
 
   private void majEtatJeu() {
     // On vérifie si le jeu continue ou pas
-    if (joueur.estEnCollisionAvec(sprites)) {
+    // if (joueur.estEnCollisionAvec(sprites)) {
+    // gameOver = true;
+    // }
+    if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+      gererTir();
+    }
+
+    if (sprites.isEmpty()) {
       gameOver = true;
     }
+  }
+
+  private void gererTir() {
+    int tirX = Gdx.input.getX();
+    int tirY = Gdx.input.getY();
+
+    ArrayList<Sprite> spritesTouches = new ArrayList<>();
+
+    for (Sprite sprite : sprites) {
+      if (sprite.seTrouveSur(tirX, tirY)) {
+        // sprites.remove(sprite);
+        // retenir les sprites
+        spritesTouches.add(sprite);
+        // break; // sortir immédiatement de la boucle
+      }
+    }
+
+    // effacer le sprite hit potentiel
+    // if (spriteTouche != null) {
+    // sprites.remove(spriteTouche);
+    // }
+
+    // effacer tous les sprites touchés
+    // for (Sprite spriteTouche : spritesTouches) {
+    // sprites.remove(spriteTouche);
+    // }
+
+    sprites.removeAll(spritesTouches);
   }
 
   private void dessiner() {
@@ -89,7 +125,7 @@ public class Intro extends ApplicationAdapter {
       for (Sprite sprite : sprites) {
         sprite.dessiner(batch);
       }
-      joueur.dessiner(batch);
+      // joueur.dessiner(batch);
     }
     batch.end();
   }
