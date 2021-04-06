@@ -7,17 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Joueur {
-
-  final int vitesse = 10;
-  int longueurFenetre;
-  int hauteurFenetre;
-  Texture img;
-  int coordX;
-  int coordY;
-  int longueurEffective;
-  int hauteurEffective;
-  Rectangle zoneDeHit; // pour la détection des collisions
+public class Joueur extends Protagoniste {
 
   public Joueur() {
     img = new Texture("toto.png");
@@ -28,12 +18,7 @@ public class Joueur {
     zoneDeHit = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
   }
 
-  public void majEtat() {
-    deplacer();
-    forcerAResterDansLeCadre();
-  }
-
-  private void deplacer() {
+  protected void deplacer() {
     if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
       coordX -= vitesse;
     }
@@ -47,12 +32,10 @@ public class Joueur {
       coordY -= vitesse;
     }
 
-    // Coordonnées ont potentiellement changé
-    // => Mise à jour zone de "hit"
-    zoneDeHit.setPosition(coordX, coordY);
+    majZoneDeHit();
   }
 
-  private void forcerAResterDansLeCadre() {
+  protected void forcerAResterDansLeCadre() {
     // Gestion bordure droite
     if (coordX + longueurEffective > longueurFenetre) {
       coordX = longueurFenetre - longueurEffective;
@@ -73,9 +56,7 @@ public class Joueur {
       coordY = 0;
     }
 
-    // Coordonnées ont potentiellement changé
-    // => Mise à jour zone de "hit"
-    zoneDeHit.setPosition(coordX, coordY);
+    majZoneDeHit();
   }
 
   public void dessiner(SpriteBatch batch) {

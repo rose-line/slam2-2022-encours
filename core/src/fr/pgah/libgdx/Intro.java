@@ -13,9 +13,9 @@ public class Intro extends ApplicationAdapter {
   SpriteBatch batch;
   int longueurFenetre;
   int hauteurFenetre;
-  // Sprite[] sprites;
-  ArrayList<Sprite> sprites;
-  Joueur joueur;
+  // ArrayList<Sprite> sprites;
+  // Joueur joueur;
+  ArrayList<Protagoniste> protagonistes;
   boolean gameOver;
   Texture gameOverTexture;
 
@@ -28,20 +28,20 @@ public class Intro extends ApplicationAdapter {
     gameOver = false;
     gameOverTexture = new Texture("game_over.png");
 
+    protagonistes = new ArrayList<>();
     initialisationSprites();
     initialiserJoueur();
   }
 
   private void initialisationSprites() {
-    // sprites = new Sprite[NB_SPRITES];
-    sprites = new ArrayList<>();
     for (int i = 0; i < NB_SPRITES; i++) {
-      sprites.add(new Sprite("chien.png"));
+      protagonistes.add(new Sprite("chien.png"));
     }
   }
 
   private void initialiserJoueur() {
-    joueur = new Joueur();
+    // joueur = new Joueur();
+    protagonistes.add(new Joueur());
   }
 
   @Override
@@ -55,19 +55,23 @@ public class Intro extends ApplicationAdapter {
     }
   }
 
-
   private void reinitialiserArrierePlan() {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
   }
 
   private void majEtatProtagonistes() {
-    // Sprites
-    for (Sprite sprite : sprites) {
-      sprite.majEtat();
+
+    for (Protagoniste p : protagonistes) {
+      p.majEtat();
     }
 
-    // Joueur
-    joueur.majEtat();
+    // // Sprites
+    // for (Sprite sprite : sprites) {
+    // sprite.majEtat();
+    // }
+
+    // // Joueur
+    // joueur.majEtat();
   }
 
   private void majEtatJeu() {
@@ -86,10 +90,13 @@ public class Intro extends ApplicationAdapter {
       batch.draw(gameOverTexture, 100, 100);
     } else {
       // Affichage "normal", jeu en cours
-      for (Sprite sprite : sprites) {
-        sprite.dessiner(batch);
+      // for (Sprite sprite : sprites) {
+      // sprite.dessiner(batch);
+      // }
+      // joueur.dessiner(batch);
+      for (Protagoniste p : protagonistes) {
+        p.dessiner(batch);
       }
-      joueur.dessiner(batch);
     }
     batch.end();
   }
