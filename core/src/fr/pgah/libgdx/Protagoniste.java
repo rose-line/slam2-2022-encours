@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Protagoniste {
+public abstract class Protagoniste {
 
   int vitesse = 10;
   int longueurFenetre;
@@ -25,13 +25,10 @@ public class Protagoniste {
     forcerAResterDansLeCadre();
   }
 
-  protected void deplacer() {
-  }
+  protected abstract void deplacer();
 
-  protected void forcerAResterDansLeCadre() {
-  }
+  protected abstract void forcerAResterDansLeCadre();
 
-  public void dessiner(SpriteBatch batch) {
-  }
+  public abstract void dessiner(SpriteBatch batch);
 
 }

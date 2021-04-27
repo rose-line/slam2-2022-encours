@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Sprite extends Protagoniste {
+public class Ennemi extends Protagoniste {
 
   boolean versLaDroite;
   boolean versLeHaut;
@@ -15,7 +15,7 @@ public class Sprite extends Protagoniste {
   int vitesseRotation;
   Random generateurAleatoire;
 
-  public Sprite(String img) {
+  public Ennemi(String img) {
     // On pourrait aussi copier tout le contenu de la méthode ici
     initialiser(img);
   }

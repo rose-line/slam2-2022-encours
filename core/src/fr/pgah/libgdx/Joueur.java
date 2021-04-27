@@ -63,13 +63,14 @@ public class Joueur extends Protagoniste {
     batch.draw(img, coordX, coordY);
   }
 
-  public boolean estEnCollisionAvec(ArrayList<Sprite> sprites) {
-    // pour chaque sprite dans sprites
-    // si le sprite touche le joueur
-    // alors renvoyer vrai
-    for (Sprite sprite : sprites) {
-      if (estEnCollisionAvec(sprite)) {
-        return true;
+  public boolean estEnCollisionAvecSprite(ArrayList<Protagoniste> protagonistes) {
+
+    for (Protagoniste protagoniste : protagonistes) {
+      if (protagoniste instanceof Ennemi) {
+        Ennemi ennemi = (Ennemi) protagoniste;
+        if (estEnCollisionAvec(ennemi)) {
+          return true;
+        }
       }
     }
     // si on arrive ici, on a parcouru tout le tableau sans return,
@@ -77,10 +78,10 @@ public class Joueur extends Protagoniste {
     return false;
   }
 
-  private boolean estEnCollisionAvec(Sprite sprite) {
+  private boolean estEnCollisionAvec(Ennemi ennemi) {
     // 'overlaps' est une méthode fournie par libGDX
     // Elle teste si 2 rectangles se touchent
-    if (zoneDeHit.overlaps(sprite.zoneDeHit)) {
+    if (zoneDeHit.overlaps(ennemi.zoneDeHit)) {
       return true;
     } else {
       return false;

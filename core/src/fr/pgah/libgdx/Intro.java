@@ -13,9 +13,10 @@ public class Intro extends ApplicationAdapter {
   SpriteBatch batch;
   int longueurFenetre;
   int hauteurFenetre;
-  // ArrayList<Sprite> sprites;
+  // ArrayList<Sprite> ennemis;
   // Joueur joueur;
   ArrayList<Protagoniste> protagonistes;
+
   boolean gameOver;
   Texture gameOverTexture;
 
@@ -28,14 +29,14 @@ public class Intro extends ApplicationAdapter {
     gameOver = false;
     gameOverTexture = new Texture("game_over.png");
 
-    protagonistes = new ArrayList<>();
-    initialisationSprites();
+    protagonistes = new ArrayList<Protagoniste>();
+    initialisationEnnemis();
     initialiserJoueur();
   }
 
-  private void initialisationSprites() {
+  private void initialisationEnnemis() {
     for (int i = 0; i < NB_SPRITES; i++) {
-      protagonistes.add(new Sprite("chien.png"));
+      protagonistes.add(new Ennemi("chien.png"));
     }
   }
 
@@ -66,8 +67,8 @@ public class Intro extends ApplicationAdapter {
     }
 
     // // Sprites
-    // for (Sprite sprite : sprites) {
-    // sprite.majEtat();
+    // for (Ennemi ennemi : ennemis) {
+    // ennemi.majEtat();
     // }
 
     // // Joueur
@@ -76,9 +77,19 @@ public class Intro extends ApplicationAdapter {
 
   private void majEtatJeu() {
     // On vérifie si le jeu continue ou pas
-    if (joueur.estEnCollisionAvec(sprites)) {
+    if (joueurEstTouche()) {
       gameOver = true;
     }
+  }
+
+  private boolean joueurEstTouche() {
+    for (Protagoniste protagoniste : protagonistes) {
+      if (protagoniste instanceof Joueur) {
+        Joueur joueur = (Joueur) protagoniste;
+        return joueur.estEnCollisionAvecSprite(protagonistes);
+      }
+    }
+    return false;
   }
 
   private void dessiner() {
@@ -90,8 +101,8 @@ public class Intro extends ApplicationAdapter {
       batch.draw(gameOverTexture, 100, 100);
     } else {
       // Affichage "normal", jeu en cours
-      // for (Sprite sprite : sprites) {
-      // sprite.dessiner(batch);
+      // for (Ennemi ennemi : ennemis) {
+      // ennemi.dessiner(batch);
       // }
       // joueur.dessiner(batch);
       for (Protagoniste p : protagonistes) {
