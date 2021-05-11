@@ -46,4 +46,32 @@ public class Protagonistes {
       p.dessiner(batch);
     }
   }
+
+  public void rendreJoueurInvincible() {
+    for (Protagoniste protagoniste : protagonistes) {
+      if (protagoniste instanceof Joueur) {
+        Joueur joueur = (Joueur) protagoniste;
+        joueur.rendreInvincible();
+      }
+    }
+  }
+
+  public boolean joueurEstInvincible() {
+    for (Protagoniste protagoniste : protagonistes) {
+      if (protagoniste instanceof Joueur) {
+        Joueur joueur = (Joueur) protagoniste;
+        return joueur.estInvincible();
+      }
+    }
+    return false;
+  }
+
+  public void decrementerInvincibiliteJoueur() {
+    for (Protagoniste protagoniste : protagonistes) {
+      if (protagoniste instanceof Joueur) {
+        Joueur joueur = (Joueur) protagoniste;
+        joueur.decrementerInvincibilite();
+      }
+    }
+  }
 }

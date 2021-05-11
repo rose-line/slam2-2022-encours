@@ -11,7 +11,6 @@ public class Jeu extends ApplicationAdapter {
   private final int NB_ENNEMIS = 5;
   private SpriteBatch batch;
   private Protagonistes protagonistes;
-  private int invincibiliteRestante;
   private int barreDeVie;
   private boolean gameOver;
   private Texture gameOverTexture;
@@ -20,7 +19,6 @@ public class Jeu extends ApplicationAdapter {
   public void create() {
     batch = new SpriteBatch();
 
-    invincibiliteRestante = 0;
     barreDeVie = 3;
     gameOver = false;
     gameOverTexture = new Texture("game_over.png");
@@ -44,16 +42,12 @@ public class Jeu extends ApplicationAdapter {
   }
 
   private void majEtatJeu() {
-    if (invincibiliteRestante > 0) {
-      invincibiliteRestante--;
-      System.out.println("invincibilite restante : " + invincibiliteRestante);
-      if (invincibiliteRestante == 0) {
-        System.out.println("plus invincible");
-      }
+    if (protagonistes.joueurEstInvincible()) {
+      protagonistes.decrementerInvincibiliteJoueur();
     } else {
       if (protagonistes.joueurEstTouche()) {
         System.out.println("Touche ! Invincibilite temporaire");
-        invincibiliteRestante = 180;
+        protagonistes.rendreJoueurInvincible();
         barreDeVie--;
         System.out.println("barre de vie : " + barreDeVie);
         if (barreDeVie == 0) {

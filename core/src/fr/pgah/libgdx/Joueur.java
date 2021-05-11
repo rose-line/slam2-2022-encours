@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Joueur extends Protagoniste {
 
+  private int invincibiliteRestante;
+
   public Joueur() {
     img = new Texture("toto.png");
     longueurEffective = img.getWidth();
@@ -16,6 +18,7 @@ public class Joueur extends Protagoniste {
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
     zoneDeHit = new Rectangle(coordX, coordY, longueurEffective, hauteurEffective);
+    invincibiliteRestante = 0;
   }
 
   protected void deplacer() {
@@ -60,7 +63,11 @@ public class Joueur extends Protagoniste {
   }
 
   public void dessiner(SpriteBatch batch) {
-    batch.draw(img, coordX, coordY);
+    if (invincibiliteRestante > 0) {
+      // dessin avec halo
+    } else {
+      batch.draw(img, coordX, coordY);
+    }
   }
 
   public boolean estEnCollisionAvecSprite(ArrayList<Protagoniste> protagonistes) {
@@ -83,5 +90,17 @@ public class Joueur extends Protagoniste {
     } else {
       return false;
     }
+  }
+
+  public void rendreInvincible() {
+    invincibiliteRestante = 180;
+  }
+
+  public boolean estInvincible() {
+    return invincibiliteRestante > 0;
+  }
+
+  public void decrementerInvincibilite() {
+    invincibiliteRestante--;
   }
 }
