@@ -16,11 +16,6 @@ public class Ennemi extends Protagoniste {
   Random generateurAleatoire;
 
   public Ennemi(String img) {
-    // On pourrait aussi copier tout le contenu de la méthode ici
-    initialiser(img);
-  }
-
-  private void initialiser(String img) {
     longueurFenetre = Gdx.graphics.getWidth();
     hauteurFenetre = Gdx.graphics.getHeight();
 

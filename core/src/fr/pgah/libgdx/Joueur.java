@@ -73,14 +73,11 @@ public class Joueur extends Protagoniste {
         }
       }
     }
-    // si on arrive ici, on a parcouru tout le tableau sans return,
-    // donc on n'a aucune collision => faux
     return false;
   }
 
   private boolean estEnCollisionAvec(Ennemi ennemi) {
     // 'overlaps' est une méthode fournie par libGDX
-    // Elle teste si 2 rectangles se touchent
     if (zoneDeHit.overlaps(ennemi.zoneDeHit)) {
       return true;
     } else {

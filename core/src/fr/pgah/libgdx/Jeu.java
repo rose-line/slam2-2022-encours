@@ -1,39 +1,35 @@
 package fr.pgah.libgdx;
 
-import java.util.ArrayList;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Intro extends ApplicationAdapter {
+public class Jeu extends ApplicationAdapter {
 
-  final int NB_ENNEMIS = 5;
-  SpriteBatch batch;
-  int longueurFenetre;
-  int hauteurFenetre;
-  // ArrayList<Protagoniste> protagonistes;
-  Protagonistes protagonistes;
-  boolean gameOver;
-  Texture gameOverTexture;
+  private final int NB_ENNEMIS = 5;
+  private SpriteBatch batch;
+  private Protagonistes protagonistes;
+  private int invincibiliteRestante;
+  private int barreDeVie;
+  private boolean gameOver;
+  private Texture gameOverTexture;
 
   @Override
   public void create() {
     batch = new SpriteBatch();
-    longueurFenetre = Gdx.graphics.getWidth();
-    hauteurFenetre = Gdx.graphics.getHeight();
 
+    invincibiliteRestante = 0;
+    barreDeVie = 3;
     gameOver = false;
     gameOverTexture = new Texture("game_over.png");
 
-    // protagonistes = new ArrayList<Protagoniste>();
     protagonistes = new Protagonistes(NB_ENNEMIS, batch);
   }
 
   @Override
   public void render() {
-    // gameOver est mis à TRUE dès qu'un "hit" est repéré
     if (!gameOver) {
       reinitialiserArrierePlan();
       protagonistes.majEtat();
@@ -48,9 +44,22 @@ public class Intro extends ApplicationAdapter {
   }
 
   private void majEtatJeu() {
-    // On vérifie si le jeu continue ou pas
-    if (protagonistes.joueurEstTouche()) {
-      gameOver = true;
+    if (invincibiliteRestante > 0) {
+      invincibiliteRestante--;
+      System.out.println("invincibilite restante : " + invincibiliteRestante);
+      if (invincibiliteRestante == 0) {
+        System.out.println("plus invincible");
+      }
+    } else {
+      if (protagonistes.joueurEstTouche()) {
+        System.out.println("Touche ! Invincibilite temporaire");
+        invincibiliteRestante = 180;
+        barreDeVie--;
+        System.out.println("barre de vie : " + barreDeVie);
+        if (barreDeVie == 0) {
+          gameOver = true;
+        }
+      }
     }
   }
 
