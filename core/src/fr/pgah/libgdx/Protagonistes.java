@@ -7,22 +7,17 @@ public class Protagonistes {
 
   private SpriteBatch batch;
   private ArrayList<Protagoniste> protagonistes;
+  private Joueur joueur;
 
   public Protagonistes(int nombreEnnemis, SpriteBatch batch) {
     this.batch = batch;
     protagonistes = new ArrayList<>();
-    initialiserJoueur();
+    joueur = initialiserJoueur();
     initialiserEnnemis(nombreEnnemis);
   }
 
   public boolean joueurEstTouche() {
-    for (Protagoniste protagoniste : protagonistes) {
-      if (protagoniste instanceof Joueur) {
-        Joueur joueur = (Joueur) protagoniste;
-        return joueur.estEnCollisionAvecSprite(protagonistes);
-      }
-    }
-    return false;
+    return joueur.estEnCollisionAvecSprite(protagonistes);
   }
 
   private void initialiserEnnemis(int nombreEnnemis) {
@@ -31,8 +26,10 @@ public class Protagonistes {
     }
   }
 
-  private void initialiserJoueur() {
-    protagonistes.add(new Joueur());
+  private Joueur initialiserJoueur() {
+    Joueur joueur = new Joueur();
+    protagonistes.add(joueur);
+    return joueur;
   }
 
   public void majEtat() {
@@ -48,30 +45,14 @@ public class Protagonistes {
   }
 
   public void rendreJoueurInvincible() {
-    for (Protagoniste protagoniste : protagonistes) {
-      if (protagoniste instanceof Joueur) {
-        Joueur joueur = (Joueur) protagoniste;
-        joueur.rendreInvincible();
-      }
-    }
+    joueur.rendreInvincible();
   }
 
   public boolean joueurEstInvincible() {
-    for (Protagoniste protagoniste : protagonistes) {
-      if (protagoniste instanceof Joueur) {
-        Joueur joueur = (Joueur) protagoniste;
-        return joueur.estInvincible();
-      }
-    }
-    return false;
+    return joueur.estInvincible();
   }
 
   public void decrementerInvincibiliteJoueur() {
-    for (Protagoniste protagoniste : protagonistes) {
-      if (protagoniste instanceof Joueur) {
-        Joueur joueur = (Joueur) protagoniste;
-        joueur.decrementerInvincibilite();
-      }
-    }
+    joueur.decrementerInvincibilite();
   }
 }
